@@ -1,0 +1,220 @@
+/**
+ * ST·SURFERS — BASE STYLES
+ * ─────────────────────────────────────────────────────────────────────
+ * Modern CSS reset + brand base typography.
+ * Applied globally. All values reference tokens from tokens.css.
+ * ─────────────────────────────────────────────────────────────────────
+ */
+
+/* ── MODERN RESET ───────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default list styles when list role is removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Root defaults */
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+  height: 100%;
+}
+
+/* ── BODY ───────────────────────────────────────────────────────────── */
+
+body {
+  min-height: 100%;
+  background-color: var(--ss-black);
+  color: var(--ss-white);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1;
+  overflow-x: hidden;
+}
+
+/* ── HEADINGS ───────────────────────────────────────────────────────── */
+/* All headings use the brand display font (Panchang Variable) */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800; /* ExtraBold — brand default */
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ss-white);
+}
+
+h1 { font-size: var(--text-hero);  font-weight: 800; letter-spacing: -0.03em; }
+h2 { font-size: var(--text-5xl);   font-weight: 700; letter-spacing: -0.02em; }
+h3 { font-size: var(--text-3xl);   font-weight: 700; }
+h4 { font-size: var(--text-2xl);   font-weight: 700; }
+h5 { font-size: var(--text-xl);    font-weight: 600; }
+h6 { font-size: var(--text-lg);    font-weight: 600; }
+
+/* ── BODY COPY ──────────────────────────────────────────────────────── */
+
+p {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--ss-white-muted);
+  max-width: 65ch; /* comfortable reading width */
+}
+
+/* Lead paragraph — larger, white, used in hero/intro */
+p.lead {
+  font-size: var(--text-lg);
+  color: var(--ss-white);
+  line-height: 1.6;
+}
+
+/* ── LINKS ──────────────────────────────────────────────────────────── */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+a:hover {
+  color: var(--ss-white);
+}
+
+/* ── IMAGES & MEDIA ─────────────────────────────────────────────────── */
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── FORM ELEMENTS ──────────────────────────────────────────────────── */
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Force dark background on native <select> option popups */
+select option {
+  background-color: var(--ss-surface-2);
+  color: var(--ss-white);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ── FOCUS STYLES (accessible, on-brand) ───────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--ss-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── SELECTION ──────────────────────────────────────────────────────── */
+
+::selection {
+  background: var(--ss-red);
+  color: var(--ss-white);
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--ss-surface); }
+::-webkit-scrollbar-thumb { background: var(--ss-red); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--ss-red-dark); }
+
+/* ── UTILITY CLASSES ────────────────────────────────────────────────── */
+
+/* Brand gradient as text fill */
+.text-gradient-brand {
+  background: var(--ss-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section container — max-width + horizontal padding */
+.container-site {
+  width: 100%;
+  max-width: var(--max-w-site);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: 640px)  { .container-site { padding-inline: var(--space-6);  } }
+@media (min-width: 1024px) { .container-site { padding-inline: var(--space-8);  } }
+@media (min-width: 1280px) { .container-site { padding-inline: var(--space-10); } }
+
+/* Standard section padding */
+.section-py {
+  padding-top: var(--section-py);
+  padding-bottom: var(--section-py);
+}
+
+/* Card base */
+.card-surface {
+  background: var(--ss-surface);
+  border: var(--border-faint);
+  border-radius: var(--radius-md);
+  transition:
+    transform      200ms ease,
+    box-shadow     200ms ease,
+    border-color   200ms ease;
+}
+
+.card-surface-2 {
+  background: var(--ss-surface-2);
+  border: var(--border-faint);
+  border-radius: var(--radius-md);
+  transition:
+    transform      200ms ease,
+    box-shadow     200ms ease,
+    border-color   200ms ease;
+}
+
+/* Card hover — lift + red ambient glow + border brightens */
+.card-surface:hover,
+.card-surface-2:hover {
+  transform:    translateY(-4px);
+  box-shadow:   0 0 20px rgba(208, 28, 0, 0.12);
+  border-color: rgba(208, 28, 0, 0.3);
+}
+
+/* Red accent line (used as section decorators, active nav indicators) */
+.accent-line {
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--ss-red);
+  border-radius: var(--radius-full);
+}
+
+/* Map texture overlay — dark street map motif from brand docs */
+/* Used as ::before or ::after pseudo-element behind hero/sections */
+.map-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M0 50 Q100 30 200 50 T400 50' stroke='rgba(255,255,255,0.03)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 100 Q150 80 250 100 T400 100' stroke='rgba(255,255,255,0.03)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 150 Q80 130 200 150 T400 150' stroke='rgba(255,255,255,0.025)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 200 Q120 180 220 200 T400 200' stroke='rgba(255,255,255,0.03)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 250 Q100 230 250 250 T400 250' stroke='rgba(255,255,255,0.025)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 300 Q140 280 200 300 T400 300' stroke='rgba(255,255,255,0.03)' fill='none' stroke-width='1'/%3E%3Cpath d='M0 350 Q80 330 180 350 T400 350' stroke='rgba(255,255,255,0.025)' fill='none' stroke-width='1'/%3E%3Cpath d='M50 0 Q30 100 50 200 T50 400' stroke='rgba(255,255,255,0.025)' fill='none' stroke-width='1'/%3E%3Cpath d='M150 0 Q130 80 150 200 T150 400' stroke='rgba(255,255,255,0.02)' fill='none' stroke-width='1'/%3E%3Cpath d='M250 0 Q230 120 250 200 T250 400' stroke='rgba(255,255,255,0.025)' fill='none' stroke-width='1'/%3E%3Cpath d='M350 0 Q330 100 350 200 T350 400' stroke='rgba(255,255,255,0.02)' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  pointer-events: none;
+  z-index: 0;
+}

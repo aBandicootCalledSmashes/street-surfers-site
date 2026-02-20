@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# St·Surfers — Official Site
+
+**Street Surfers South-Side Shuttles**
+Scheduled staff & scholar shuttle transport · Johannesburg South Side, South Africa
+
+---
+
+## Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + CSS custom properties
+- **Animations:** Framer Motion
+- **Maps:** Leaflet + react-leaflet@4 (CartoDB dark tiles, Nominatim geocoding, OSRM routing)
+- **Forms:** react-hook-form + Zod → Google Apps Script → Google Sheets
+- **Deployment:** Netlify
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev       # → http://localhost:3000
+npm run build     # production build check
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+site/
+├── app/
+│   ├── globals.css          # Tailwind layers + utility classes
+│   ├── layout.tsx           # Fonts, metadata, OG tags
+│   └── page.tsx             # Home page
+├── components/              # All page sections + UI components
+├── lib/
+│   └── constants.ts         # All business data (pricing, contact, copy)
+├── styles/
+│   ├── tokens.css           # CSS custom properties
+│   └── base.css             # Reset + base typography
+└── public/
+    ├── assets/
+    │   ├── logo/            # Brand logo files
+    │   └── video/           # Hero background video
+    └── thank-you.html       # Post-waitlist confirmation page
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Forms Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All 3 forms (Waitlist, Driver Application, Coverage Interest) submit to a single Google Apps Script deployment, routing to separate sheet tabs via `sheetName` in the JSON payload.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**info@streetsurfers.com** · +27 69 164 3842
+Reg No: 2024/681346/07

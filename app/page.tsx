@@ -1,101 +1,149 @@
-import Image from "next/image";
+"use client";
+
+/**
+ * ST·SURFERS — HOME PAGE
+ * ─────────────────────────────────────────────────────────────────────
+ * Section order (from brand KB §8):
+ *  [1] Hero           — #hero
+ *  [2] Ride/Book      — #ride       ✅ Built
+ *  [3] Earn/Drive     — #drive      ✅ Built
+ *  [4] How It Works   — #how-it-works ✅ Built
+ *  [5] Safety         — #safety     ✅ Built
+ *  [6] Benefits       — #benefits   ✅ Built
+ *  [7] About          — #about      ✅ Built
+ *  [8] Coverage       — #coverage   ✅ Built
+ *  [9] Footer                       ✅ Built
+ *
+ * Polish layer (Session 11):
+ *  - LoadingScreen  — SVG draw-in + progress bar, max 1.5s, z-[200]
+ *  - CustomCursor   — dot + lagged ring, desktop only
+ *  - ScrollReveal   — wraps sections 2–9 for entrance animations
+ * ─────────────────────────────────────────────────────────────────────
+ */
+
+import { useState } from "react";
+import Navbar             from "@/components/Navbar";
+import HeroSection        from "@/components/HeroSection";
+import RideSection        from "@/components/RideSection";
+import DriveSection       from "@/components/DriveSection";
+import HowItWorksSection  from "@/components/HowItWorksSection";
+import SafetySection      from "@/components/SafetySection";
+import BenefitsSection    from "@/components/BenefitsSection";
+import WaitlistModal      from "@/components/WaitlistModal";
+import Footer             from "@/components/Footer";
+import ErrorBoundary      from "@/components/ErrorBoundary";
+import AboutSection       from "@/components/AboutSection";
+import CoverageSection    from "@/components/CoverageSection";
+import LoadingScreen      from "@/components/LoadingScreen";
+import CustomCursor       from "@/components/CustomCursor";
+import ScrollReveal       from "@/components/ScrollReveal";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // Waitlist modal state — lifted here so Navbar CTA and section CTAs share it
+  const [waitlistOpen,   setWaitlistOpen]   = useState(false);
+  // Optional budget pre-fill from idle trick slider
+  const [waitlistBudget, setWaitlistBudget] = useState<number | undefined>();
+  // Source tracking — which CTA triggered the modal
+  const [waitlistSource, setWaitlistSource] = useState<string | undefined>();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  function handleWaitlistClick(budget?: number, source?: string) {
+    setWaitlistBudget(budget);
+    setWaitlistSource(source);
+    setWaitlistOpen(true);
+  }
+
+  return (
+    <>
+      {/* ── LOADING SCREEN — black overlay, fades out after ~1.5s ──── */}
+      <LoadingScreen />
+
+      {/* ── CUSTOM CURSOR — desktop only, touch devices get nothing ── */}
+      <CustomCursor />
+
+      {/* ── NAVBAR ──────────────────────────────────────────────────── */}
+      <Navbar onWaitlistClick={() => handleWaitlistClick(undefined, "navbar")} />
+
+      <main>
+
+        {/* ── [1] HERO — no ScrollReveal (fires immediately on load) ── */}
+        {/*
+          Background video: Pexels #2675508 — "Aerial Footage of Road System at Night"
+          Download from: https://www.pexels.com/video/aerial-footage-of-the-road-system-in-a-city-at-night-2675508/
+          Save as: site/public/assets/video/hero-bg.mp4
+        */}
+        <ErrorBoundary label="Hero">
+          <HeroSection
+            onWaitlistClick={() => handleWaitlistClick(undefined, "hero")}
+            videoSrc="/assets/video/hero-bg.mp4"
+          />
+        </ErrorBoundary>
+
+        {/* ── [2] RIDE / BOOK ──────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="Price Estimator">
+            <RideSection onWaitlistClick={handleWaitlistClick} />
+            {/* RideSection passes source="estimator-cta" or "budget-slider" */}
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [3] EARN / DRIVE ─────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="Drive Section">
+            <DriveSection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [4] HOW IT WORKS ─────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="How It Works">
+            <HowItWorksSection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [5] SAFETY ───────────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="Safety">
+            <SafetySection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [6] BENEFITS ─────────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="Benefits">
+            <BenefitsSection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [7] ABOUT ────────────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="About">
+            <AboutSection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
+        {/* ── [8] COVERAGE ─────────────────────────────────────────── */}
+        <ScrollReveal>
+          <ErrorBoundary label="Coverage">
+            <CoverageSection />
+          </ErrorBoundary>
+        </ScrollReveal>
+
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+      {/* ── [9] FOOTER ───────────────────────────────────────────────── */}
+      <ScrollReveal>
+        <ErrorBoundary label="Footer">
+          <Footer onWaitlistClick={() => handleWaitlistClick(undefined, "footer")} />
+        </ErrorBoundary>
+      </ScrollReveal>
+
+      {/* ── WAITLIST MODAL ────────────────────────────────────────────── */}
+      <WaitlistModal
+        isOpen={waitlistOpen}
+        onClose={() => setWaitlistOpen(false)}
+        defaultBudget={waitlistBudget}
+        source={waitlistSource}
+      />
+    </>
   );
 }

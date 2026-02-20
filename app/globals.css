@@ -1,27 +1,148 @@
+/* ── Import brand foundation ── */
+/* next/font injects CSS variables for Panchang + DM Sans at build time */
+/* tokens.css and base.css reference those variables */
+@import '../styles/tokens.css';
+@import '../styles/base.css';
+
+/* ── Tailwind layers ── */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── KEYFRAMES ────────────────────────────────────────────────────────────── */
+
+/* Slow float: used on decorative location pin accents */
+@keyframes float {
+  from { transform: translateY(0px);  }
+  to   { transform: translateY(-10px); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Shimmer sweep: re-exported from the bar animation in RideSection */
+@keyframes shimmer-sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(300%);  }
+}
+
+/* ── ACCESSIBILITY — prefers-reduced-motion ────────────────────────────── */
+/* Collapse all durations to near-zero; scroll is also instant */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior:          auto   !important;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/* ── Tailwind utility layer extensions ── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+
+  /* Float animation class */
+  .animate-float {
+    animation: float 4s ease-in-out infinite alternate;
+  }
+
+  /* Gradient text (Tailwind can't express -webkit-background-clip natively) */
+  .text-gradient {
+    background: var(--ss-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow utilities */
+  .glow-red    { box-shadow: var(--shadow-red); }
+  .glow-red-lg { box-shadow: var(--shadow-red-lg); }
+
+  /* Waitlist modal — submit button shine sweep */
+  .wl-btn-shine { position: relative; overflow: hidden; }
+  .wl-btn-shine::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 600ms ease;
+    pointer-events: none;
+  }
+  .wl-btn-shine:hover::after { transform: translateX(100%); }
+
+  /* Map texture motif (background SVG pattern — brand doc style) */
+  .bg-map-texture {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg stroke='rgba(255,255,255,0.04)' fill='none' stroke-width='1'%3E%3Cpath d='M0 60 Q150 40 300 60 T600 60'/%3E%3Cpath d='M0 120 Q200 100 350 120 T600 120'/%3E%3Cpath d='M0 180 Q100 160 280 180 T600 180'/%3E%3Cpath d='M0 240 Q180 220 320 240 T600 240'/%3E%3Cpath d='M0 300 Q130 280 300 300 T600 300'/%3E%3Cpath d='M0 360 Q160 340 280 360 T600 360'/%3E%3Cpath d='M0 420 Q120 400 300 420 T600 420'/%3E%3Cpath d='M0 480 Q200 460 350 480 T600 480'/%3E%3Cpath d='M0 540 Q150 520 300 540 T600 540'/%3E%3Cpath d='M60 0 Q40 150 60 300 T60 600'/%3E%3Cpath d='M150 0 Q130 120 150 300 T150 600'/%3E%3Cpath d='M240 0 Q220 180 240 300 T240 600'/%3E%3Cpath d='M340 0 Q320 100 340 300 T340 600'/%3E%3Cpath d='M440 0 Q420 150 440 300 T440 600'/%3E%3Cpath d='M540 0 Q520 120 540 300 T540 600'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 600px 600px;
+  }
+
+  /* Hide scrollbar (keep functionality) */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* Pill button base */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: background-color var(--dur-base) var(--ease-out),
+                box-shadow var(--dur-base) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+  }
+
+  .btn-pill:active { transform: scale(0.97); }
+
+  /* Primary CTA — red */
+  .btn-primary {
+    background-color: var(--ss-red);
+    color: var(--ss-white);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary:hover {
+    background-color: var(--ss-red-dark);
+    box-shadow: var(--shadow-red);
+  }
+  /* Shimmer sweep on hover */
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.18) 50%,
+      transparent 60%
+    );
+    transform: translateX(-100%);
+    transition: transform 600ms ease;
+    pointer-events: none;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+
+  /* Ghost CTA — white border */
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--ss-white);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── MOBILE TOUCH TARGETS ─────────────────────────────────────────
+   * Enforce 44×44px minimum on coarse-pointer (touch) devices.
+   * Applied to pill buttons only — avoids breaking icon buttons.
+   * ────────────────────────────────────────────────────────────────── */
+  @media (pointer: coarse) {
+    .btn-pill {
+      min-height: 44px;
+    }
   }
 }
