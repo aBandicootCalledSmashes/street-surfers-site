@@ -9,7 +9,7 @@
  *  - Leaflet/OSM map preview (CartoDB dark tiles)
  *  - 3-way cost comparison: St·Surfers vs Uber vs Bolt
  *  - Bar race animation
- *  - 20-second idle trick state machine (idle → wiggle → reassure → slider)
+ *  - 7-second idle trick state machine (idle → wiggle → reassure → slider)
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -23,9 +23,9 @@ import type { GeoPoint } from "./MapPreview";
 // IDLE TRICK CONFIG — edit these numbers without touching the logic below
 // ─────────────────────────────────────────────────────────────────────────────
 const IDLE_CONFIG = {
-  timerStart:    20,   // seconds of inactivity before wiggle triggers
-  phase2Delay:    5,   // seconds after wiggle for reassurance text
-  phase3Delay:    8,   // seconds after wiggle for slider expansion
+  timerStart:     5,   // seconds of inactivity before wiggle triggers
+  phase2Delay:    1,   // seconds after wiggle for reassurance text
+  phase3Delay:    2,   // seconds after wiggle for slider expansion (~7s total)
   budgetMin:    200,   // rand — slider minimum
   budgetMax:   2500,   // rand — slider maximum
   budgetStep:    50,   // rand — slider step
@@ -801,9 +801,9 @@ export default function RideSection({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 28 }}
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              onMouseMove={resetIdleTimer}
-              onTouchStart={resetIdleTimer}
-              onClick={resetIdleTimer}
+              onMouseMove={() => { if (idleState < 3) resetIdleTimer(); }}
+              onTouchStart={() => { if (idleState < 3) resetIdleTimer(); }}
+              onClick={() => { if (idleState < 3) resetIdleTimer(); }}
               className="mt-8"
             >
 

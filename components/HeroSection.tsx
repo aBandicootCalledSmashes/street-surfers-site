@@ -119,7 +119,7 @@ export default function HeroSection({ onWaitlistClick, videoSrc }: HeroSectionPr
     <section
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden bg-ss-black"
-      aria-label="Hero — South side rides, sorted"
+      aria-label="Hero — Ride and Tide the City"
     >
       {/* ── LAYER 1: Background video (desktop only, fades in on load) ──── */}
       {videoSrc && (
@@ -248,7 +248,7 @@ export default function HeroSection({ onWaitlistClick, videoSrc }: HeroSectionPr
                 style={{ background: "#D01C00" }}
                 aria-hidden="true"
               />
-              Pre-launch · JHB South Side — Secure your spot
+              Pre-launch · Gauteng Wave — Secure your spot
             </span>
           </motion.div>
 
@@ -264,7 +264,7 @@ export default function HeroSection({ onWaitlistClick, videoSrc }: HeroSectionPr
               animate="visible"
               className="block text-ss-white"
             >
-              South side rides,
+              Ride and Tide
             </motion.span>
             <motion.span
               variants={fu(0.55)}
@@ -272,7 +272,7 @@ export default function HeroSection({ onWaitlistClick, videoSrc }: HeroSectionPr
               animate="visible"
               className="block text-ss-red"
             >
-              sorted.
+              the City.
             </motion.span>
           </h1>
 
