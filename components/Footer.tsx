@@ -100,7 +100,7 @@ function FooterLink({
 const SOCIAL_LINKS = [
   {
     label: "Instagram",
-    href: "https://instagram.com/streetsurfers",
+    href: "https://www.instagram.com/streetsurfers_sa?igsh=MXBuc3lmenJ6Z3p1dQ%3D%3D&utm_source=qr",
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -113,7 +113,7 @@ const SOCIAL_LINKS = [
   },
   {
     label: "Facebook",
-    href: "https://facebook.com/streetsurfers",
+    href: "https://www.facebook.com/share/1CRk7G7Nuc/?mibextid=wwXIfr",
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
@@ -126,7 +126,7 @@ const SOCIAL_LINKS = [
   },
   {
     label: "TikTok",
-    href: "https://tiktok.com/@streetsurfers",
+    href: "https://www.tiktok.com/@street.surfers?_r=1&_t=ZS-946lsbWkDj8",
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.05a8.16 8.16 0 004.77 1.52V7.13a4.85 4.85 0 01-1-.44z" />
